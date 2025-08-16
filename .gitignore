@@ -13,7 +13,6 @@ design
 dist-ssr
 /assets
 *.local
-/test.txt
 
 # Editor directories and files
 .vscode/*
