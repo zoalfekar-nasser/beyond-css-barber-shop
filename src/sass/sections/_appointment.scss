@@ -1,0 +1,50 @@
+@use "../abstracts/" as *;
+
+.appointment {
+  &__form {
+    display: grid;
+  }
+  &__form-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $clamp-space-base;
+
+    @include media-min(small) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__input-box {
+    display: grid;
+    gap: $appointment-form-input-box-gap;
+    // justify-items: left;
+
+    input {
+      // outline: none;
+      padding: $appointment-form-input-padding;
+      border: $appointment-form-input-border;
+      border-radius: $appointment-form-input-border-radius;
+      outline-color: transparent;
+      transition: outline $transition-2;
+      &::placeholder {
+        color: $appointment-form-input-placeholder-color;
+      }
+
+      &:focus {
+        outline-color: $appointment-form-input-border-color-hover;
+      }
+    }
+
+    label {
+      text-align: left;
+      font-weight: $appointment-form-label-font-weight;
+      span {
+        font-weight: $font-weight-400;
+      }
+    }
+  }
+
+  .button {
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,7 @@
+@use "../abstracts/" as *;
+
+.hours__content {
+  @include flex(center, $gap: 0) {
+    flex-wrap: wrap;
+  }
+}

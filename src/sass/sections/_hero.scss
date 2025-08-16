@@ -1,0 +1,29 @@
+@use "../abstracts/" as *;
+
+.hero {
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $grid-gap;
+    align-items: center;
+  }
+
+  .normal-text {
+    text-wrap: balance;
+  }
+
+  @include media-max(medium) {
+    &__content {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .text-col {
+      text-align: center;
+    }
+    .buttons {
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

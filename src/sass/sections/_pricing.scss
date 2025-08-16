@@ -1,0 +1,20 @@
+@use "../abstracts/" as *;
+
+.pricing {
+  &__content {
+    @include flex(center, center, $pricing-card-gap-between) {
+      flex-wrap: wrap;
+
+      > * {
+        flex-grow: 1;
+        width: $pricing-card-min-col-width;
+        max-width: $pricing-card-max-col-width;
+      }
+    }
+  }
+
+  &__price {
+    font-family: $pricing-card-price-font-family;
+    font-size: $pricing-card-price-font-size;
+  }
+}

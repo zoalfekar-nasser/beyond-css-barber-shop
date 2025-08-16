@@ -1,0 +1,16 @@
+@use  "../abstracts/" as *;
+
+.footer {
+  background-color: $footer-background-color ;
+  color: $footer-text-color;
+}
+
+.tel {
+  font-family: $tel-font-family;
+  color: $tel-text-color;
+  transition: color $transition-1;
+
+  &:is(:hover, :focus) {
+    color: $tel-text-color-hover;
+  }
+}

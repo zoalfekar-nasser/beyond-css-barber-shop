@@ -3,7 +3,6 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import htmlPurge from "vite-plugin-purgecss";
-import stylelint from "vite-plugin-stylelint";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
@@ -25,9 +24,6 @@ export default defineConfig({
       input: {
         // Defines the entry point of the application.
         home: resolve(__dirname, "src/index.html"),
-
-        about: resolve(__dirname, "src/about/index.html"),
-        contact: resolve(__dirname, "src/contact/index.html"),
       },
     },
   },
@@ -52,7 +48,5 @@ export default defineConfig({
       jpeg: { quality: 80 },
       jpg: { quality: 80 },
     }),
-
-    stylelint({ fix: true }),
   ],
 });

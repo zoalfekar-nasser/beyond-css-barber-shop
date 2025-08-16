@@ -1,0 +1,78 @@
+@use "../abstracts/" as *;
+
+.theme-switcher {
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 50%;
+  width: $theme-switcher-icon-size + 0.75rem;
+  height: $theme-switcher-icon-size + 0.75rem;
+  transition: background $transition-1, transform $transition-2;
+
+  anchor-name: --theme-switcher-button;
+  &__icon {
+    width: $theme-switcher-icon-size;
+    height: $theme-switcher-icon-size;
+  }
+
+  &:is(:hover, :focus-visible) {
+    background-color: hsl(from $color-header-footer h s calc(l - 25));
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.themes-list {
+  position: absolute;
+  position-anchor: --theme-switcher-button;
+  position-try-fallbacks: --center;
+  top: anchor(bottom);
+  left: anchor(left);
+  border: $theme-list-border;
+  margin: 0;
+  margin-block-start: $theme-margin-block-start;
+  opacity: 0;
+
+  background-color: hsl(from $color-header-footer h s calc(l - 35));
+  padding: $fixed-space-3;
+  border-radius: $theme-list-border-radius;
+  box-shadow: $theme-list-box-shadow;
+
+  transition: display $transition-1, opacity $transition-1;
+  transition-behavior: allow-discrete;
+}
+
+.themes-list:popover-open {
+  display: grid;
+  gap: $heme-list-gap-between;
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.theme-button {
+  justify-content: center;
+
+  width: 100%;
+  padding: $theme-button-padding;
+  background-color: $theme-button-background-color;
+  color: $theme-button-text-color;
+  letter-spacing: $theme-button-letter-spacing;
+  border-radius: $theme-button-border-radius;
+  transition: background $transition-1;
+
+  &:is(:hover, :focus-visible) {
+    background-color: hsl(from $color-header-footer h s calc(l - 40));
+  }
+
+  &.active-theme {
+    background-color: hsl(from $color-header-footer h s calc(l - 50));
+  }
+}
+
+@position-try --center {
+  left: 50%;
+}

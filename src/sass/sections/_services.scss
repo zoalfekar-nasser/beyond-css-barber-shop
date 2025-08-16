@@ -1,0 +1,5 @@
+@use "../abstracts/" as *;
+
+.services {
+  --grid-min-col-width: #{$services-card-min-col-width};
+}

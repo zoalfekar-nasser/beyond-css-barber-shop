@@ -1,0 +1,9 @@
+@use "../abstracts/" as *;
+
+.logo-link {
+  font-family: $logo-font-family;
+  font-weight: $logo-font-weight;
+  color: $logo-text-color;
+  text-transform: $logo-transform;
+  letter-spacing: $letter-spacing-width;
+}

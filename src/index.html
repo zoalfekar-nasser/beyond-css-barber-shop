@@ -4,10 +4,440 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./sass/style.scss" />
-    <title>Vite App</title>
+    <meta
+      name="description"
+      content="Showcasing modern CSS architecture with Sass and BEM. The Barber Shop is a portfolio project built to demonstrate the design system concepts taught in 'Beyond CSS."
+    />
+    <meta
+      name="keywords"
+      content="
+  Sass,
+  Front-End Development,
+  HTML,
+  CSS,
+  Responsive Design,
+  Portfolio Project,
+  Web Development,
+  CSS Preprocessor,
+  Beyond CSS,
+  Kevin Powell,
+  BEM,
+  UI Design,
+  Design System,
+  Tokens,
+  Barber Shop"
+    />
+    <title>The Barber Shop | Beyond CSS</title>
   </head>
   <body>
+    <header id="header" class="header">
+      <a href="#main-content" class="skip-link">Skip to Main Content</a>
+      <div class="wrapper">
+        <div class="header__content">
+          <a href="" class="logo-link">The Barber Shop</a>
+          <nav class="navigation">
+            <ul class="navigation__links">
+              <li>
+                <a href="#services-section" class="navigation__link"
+                  >Services</a
+                >
+              </li>
+              <li>
+                <a href="#hours-section" class="navigation__link">Hours</a>
+              </li>
+              <li>
+                <a href="#pricing-section" class="navigation__link">Prices</a>
+              </li>
+              <li>
+                <button  class="theme-switcher" popovertarget="themes-list" aria-label="Theme switcher">
+                  <svg class="theme-switcher__icon">
+                    <use xlink:href="#color-picker"></use>
+                  </svg>
+                </button>
+                <ul class="themes-list" id="themes-list" popover="auto" >
+                  <li>
+                    <button class="theme-button" data-theme-name="system">System</button>
+                  </li>
+                  <li>
+                    <button class="theme-button" data-theme-name="default">Light</button>
+                  </li>
+                  <li>
+                    <button class="theme-button" data-theme-name="dark">Dark</button>
+                  </li>
+                  <li>
+                    <button class="theme-button" data-theme-name="sleek">Sleek</button>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="main" aria-labelledby="main-heading">
+      <section class="hero | section-padding">
+        <div class="wrapper">
+          <div class="hero__content">
+            <div class="text-col flow">
+              <h1 id="main-heading" class="heading-title" data-heading="main">
+                The Barber Shop
+              </h1>
+              <p class="normal-text">
+                Established over a decade ago,
+                <strong>The Barber Shop</strong> is here to serve your hair
+                needs, whatever they are. From a simple cut, a beard trim or a
+                hot towel shave, we're here to help you with.
+              </p>
+              <div class="buttons">
+                <button class="button" data-button="accent">
+                  Book appointment
+                </button>
+                <button class="button" data-button="primary">
+                  View prices
+                </button>
+              </div>
+            </div>
+            <div class="img-col">
+              <img
+                class="radius-2"
+                src="/assets/hair-cut.jpg"
+                alt="A focused, professional barber meticulously styling the textured high-top hair of a male client in a modern barbershop"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        id="services-section"
+        class="services | section-padding text-center"
+        aria-labelledby="services-heading"
+      >
+        <div class="wrapper | bg-primary-800 flow" data-flow="large">
+          <h2
+            id="services-heading"
+            class="heading-title"
+            data-heading="section"
+          >
+            Our services
+          </h2>
+          <div class="services__content | grid">
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Hair cutting</h3>
+              <p class="card__text">
+                A quick clean up or totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Hot shaves</h3>
+              <p class="card__text">
+                There is no better way to pamper yourself than have a hot shave.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Beard cleanup</h3>
+              <p class="card__text">
+                Our barbers are experts when it comes to working on beards.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Hair coloring</h3>
+              <p class="card__text">
+                Expert color work to help you keep looking your best.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Kids</h3>
+              <p class="card__text">
+                Bring your kids with you while your at it, we love working with
+                them too!
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Products</h3>
+              <p class="card__text">
+                We carry a wide range of hair and beard products.
+              </p>
+            </div>
+          </div>
+          <button class="button | mi-auto" data-button="accent">
+            Book appointment
+          </button>
+        </div>
+      </section>
+
+      <section
+        id="hours-section"
+        class="hours | section-padding text-center"
+        aria-labelledby="hours-heading"
+        itemscope
+        itemtype="http://schema.org/HairSalon"
+      >
+        <div class="wrapper | flow" data-flow="large">
+          <div>
+            <h2 id="hours-heading" class="heading-title" data-heading="section">
+              Hours
+            </h2>
+            <p class="heading-subtitle">
+              Open 7 days a week to serve your hair cutting needs
+            </p>
+          </div>
+          <dl class="hours__content">
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Mon</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Mo 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Tue</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Tu 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Wed</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="We 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Thu</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Th 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Fri</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Fr 09:00-21:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="21:00">21:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Sat</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Sa 10:00-21:00" />
+                <time datetime="10:00">09:00</time> -
+                <time datetime="21:00">21:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Sun</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Su 09:00-18:00" />
+                <time datetime="10:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+      <section
+        id="pricing-section"
+        class="pricing | section-padding text-center"
+        aria-labelledby="pricing-heading"
+      >
+        <div class="wrapper | flow" data-flow="large" data-wrapper="small">
+          <h2 id="pricing-heading" class="heading-title" data-heading="section">
+            pricing
+          </h2>
+          <div class="pricing__content">
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Adult cut</h3>
+              <p class="pricing__price">$25</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Beard trim</h3>
+              <p class="pricing__price">$25</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">kid cut</h3>
+              <p class="pricing__price">$21</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">
+                How Towel Shave
+              </h3>
+              <p class="pricing__price">$15</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Cut & Wash</h3>
+              <p class="pricing__price">$35</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Head & Beard</h3>
+              <p class="pricing__price">$45</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="appointment | section-padding text-center">
+        <div class="wrapper | flow" data-wrapper="small" data-flow="large">
+          <div>
+            <h2
+              id="appointment-heading"
+              class="heading-title"
+              data-heading="section"
+            >
+              Book and appointment
+            </h2>
+            <p class="heading-subtitle">
+              Please fill out the form below to book your appointment
+            </p>
+          </div>
+          <div class="appointment__content">
+            <form action="" class="appointment__form | flow">
+              <div class="appointment__form-content">
+                <div class="appointment__input-box">
+                  <label for="username-input">Your Name</label
+                  ><input
+                    id="username-input"
+                    type="text"
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="email-input">E-mail address</label
+                  ><input
+                    id="email-input"
+                    type="email"
+                    placeholder="Jonny1999@gmail.com"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="date-input">Date</label
+                  ><input
+                    id="date-input"
+                    type="date"
+                    placeholder="mm/dd/yyyy"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="number-input">Phone Number</label
+                  ><input
+                    id="number-input"
+                    type="tel"
+                    placeholder="555-555-555"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="service-input">Select Service</label
+                  ><input
+                    id="service-input"
+                    type="text"
+                    placeholder="Hair Cut"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="barber-input" data-optional
+                    >Barber's name <span>(optional)</span></label
+                  ><input id="barber-input" type="text" />
+                </div>
+              </div>
+              <button class="button" data-button="accent">
+                Book appointment
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer | section-padding text-center">
+      <div class="wrapper | flow" data-flow="small">
+        <a href="#header" class="logo-link">The Barber Shop</a>
+        <p class="mi-auto">
+          Here to serve hour hair needs, whatever they might be
+        </p>
+        <a href="tel:+514551234" class="tel">514-555-1234</a>
+      </div>
+    </footer>
+
+    <svg width="0" height="0" style="display: none;">
+      <symbol
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        id="color-picker"
+      >
+        <path
+          d="M7 13.161L12.4644 7.6966C12.8549 7.30607 13.4881 7.30607 13.8786 7.6966L15.9999 9.81792C16.3904 10.2084 16.3904 10.8416 15.9999 11.2321L14.0711 13.161M7 13.161L4.82764 15.3334C4.73428 15.4267 4.66034 15.5376 4.61007 15.6597L3.58204 18.1563C3.07438 19.3892 4.30728 20.6221 5.54018 20.1145L8.03681 19.0865C8.1589 19.0362 8.26981 18.9622 8.36317 18.8689L14.0711 13.161M7 13.161H14.0711"
+          stroke="var(--clr-primary-100)"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+        <path
+          d="M13.878 3.45401L15.9993 5.57533M20.242 9.81798L18.1206 7.69666M15.9993 5.57533L17.4135 4.16112C17.8041 3.7706 18.4372 3.7706 18.8277 4.16112L19.5349 4.86823C19.9254 5.25875 19.9254 5.89192 19.5349 6.28244L18.1206 7.69666M15.9993 5.57533L18.1206 7.69666"
+          stroke="var(--clr-primary-100)"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </symbol>
+    </svg>
     <script type="module" src="/main.js"></script>
+        <div class="wrapper">
+          <div class="cards__content grid">
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div> -->
   </body>
 </html>

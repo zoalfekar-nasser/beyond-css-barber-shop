@@ -1,6 +1,7 @@
-I will give you my website starter template to review it, (assuming that for now im using only HTML, and Sass),
-Please Make a full review for the template, do you find it a professional template , give me recommendations to be as pro as possible
-
+I will give you my design system template to review it, (assuming that for now im using only HTML, and Sass),
+Please Make a full review for the system, do you find it a professional system , give me recommendations to be as pro as possible
+Please focus on the different layers of the design tokens, also what do you think about the idea of using globals partial for the different global
+variables that i have in my entire system, how do you find it?
 The General Structure:
 --node-modules
 --public
@@ -18,29 +19,27 @@ The General Structure:
               _mixins.scss
               _spacing.scss
               _typography.scss
+              _tokens.scss
+              _globals.scss
           --base
+              _font-face.scss
               _general.scss
               _index.scss
               _reset.scss
               _root.scss
           --components
               _buttons.scss
-              _navigation.scss
-              _forms.scss
+              _cards.scss
+              _headings.scss
               _index.scss
           --layout
               _footer.scss
               _grid.scss
               _header.scss
               _index.scss
-              _sidebar.scss
               _wrapper.scss
-          --pages
-              _about.scss
-              _contact.scss
-              _home.scss
           --utilities
-              _font-sizes.scss
+              _logo.scss
               _helpers.scss
               _index.scss
           --style.scss
@@ -49,40 +48,82 @@ The General Structure:
 --package-lock.json
 --package.json
 --vite.config.js
+--postcss.config.js
 
 Now i will give you my sass files content, of course for now i will have empty files, and you know why of course, because this is a template,
 
 _breakpoints:
 
-$breakpoints: (
-  small: 30em,
-  medium: 45em,
-  large: 65em,
-  xl: 80em
+$breakpoints-map: (
+  small: 30em, // ==> 480
+  medium: 45em, // ==> 720
+  large: 65em,  // ==> 1040
 );
-
 _colors:
 
-$colors: (
+@use "functions" as *;
+
+//? Global Color Tokens
+
+$-clr-white: hsl(0 0% 100%);
+$-clr-orange-300: hsl(8 62% 75%);
+$-clr-orange-400: hsl(8 62% 55%);
+$-clr-orange-500: hsl(8 62% 35%);
+$-clr-brown-100: hsl(33 24% 92%);
+$-clr-brown-200: hsl(33 25% 88%);
+$-clr-brown-300: hsl(33 23% 69%);
+$-clr-brown-400: hsl(22 31% 44%);
+$-clr-brown-700: hsl(20 23% 23%);
+$-clr-brown-800: hsl(18 23% 10%);
+
+$colors-map: (
   primary: (
-    "400": darkred,
+    "100": $-clr-brown-100,
+    "200": $-clr-brown-200,
+    "300": $-clr-brown-300,
+    "400": $-clr-brown-400,
+    "700": $-clr-brown-700,
+    "800": $-clr-brown-800,
   ),
   neutral: (
-    "100": #ffffff,
-    "900": #123,
+    "100": $-clr-white,
+  ),
+
+  accent: (
+    "300": $-clr-orange-300,
+    "400": $-clr-orange-400,
+    "500": $-clr-orange-500,
   ),
 );
+
+@function clr($color-name, $color-shade) {
+  @return getMapValue("Color", $colors-map, $color-name, $color-shade);
+}
+
+//? Contextual Colors
+
+$color-primary-100: var(--clr-primary-100, clr("primary", "100"));
+$color-primary-200: var(--clr-primary-200, clr("primary", "200"));
+$color-primary-300: var(--clr-primary-300, clr("primary", "300"));
+$color-primary-400: var(--clr-primary-400, clr("primary", "400"));
+$color-primary-700: var(--clr-primary-700, clr("primary", "700"));
+$color-primary-800: var(--clr-primary-800, clr("primary", "800"));
+
+$color-accent-300: var(--clr-accent-300, clr("accent", "300"));
+$color-accent-400: var(--clr-accent-400, clr("accent", "400"));
+$color-accent-500: var(--clr-accent-500, clr("accent", "500"));
+
+$color-neutral-100: var(--clr-neutral-100, clr("neutral", "100"));
 
 _functions:
 @use "sass:map";
 @use "sass:meta";
 @use "sass:math";
 @use "breakpoints" as *;
-@use "typography" as *;
 
 @function validate-breakpoint($breakpoint) {
-  @if map.has-key($breakpoints, $breakpoint) {
-    @return map.get($breakpoints, $breakpoint);
+  @if map.has-key($breakpoints-map, $breakpoint) {
+    @return map.get($breakpoints-map, $breakpoint);
   } @else {
     @if meta.type-of($breakpoint) == number and math.is-unitless($breakpoint) {
       @error "The number you entered |'#{$breakpoint}'| is unitless";
@@ -98,13 +139,34 @@ _functions:
   }
 }
 
-@function fs($font-size) {
-  @if map.has-key($font-sizes, $font-size) {
-    @return map.get($font-sizes, $font-size);
+@function getMapValue($key-name: "Key", $map, $key...) {
+  @if map.has-key($map, $key...) {
+    @return map.get($map, $key...);
   } @else {
-    @error "This font-size '#{$font-size} is not available'";
+    @error "This #{$key-name} '#{$key}' is not available  ";
   }
 }
+
+_globals:
+@use "spacing" as *;
+
+$globals-map: (
+  "section-padding": $clamp-space-xl,
+  "wrapper-width": 1100px,
+  "flow-spacer": $clamp-space-base,
+  "flex-gap": $clamp-space-base,
+  "grid-gap": $clamp-space-m,
+);
+
+$global-section-padding: var(--gl-section-padding, 3.5rem);
+
+$global-wrapper-width: var(--gl-wrapper-width, 25rem);
+
+$global-flow-spacer: var(--gl-flow-spacer, 1em);
+
+$global-flex-gap: var(--gl-flex-gap, 1rem);
+
+$global-grid-gap: var(--gl-grid-gap, 1rem);
 
 _index:
 @forward "./breakpoints";
@@ -113,6 +175,9 @@ _index:
 @forward "./spacing";
 @forward "./typography";
 @forward "./colors";
+@forward "./placeholders";
+@forward "./tokens";
+@forward "./globals";
 
 _mixins:
 @use "sass:map";
@@ -120,82 +185,476 @@ _mixins:
 @use "sass:math";
 @use "breakpoints" as *;
 @use "functions" as *;
+@use "typography" as *;
+@use "tokens" as *;
 
 @mixin media-min($min-breakpoint) {
-  $breakpoint: validate-breakpoint($min-breakpoint);
+  $breakpoint-validated: validate-breakpoint($min-breakpoint);
 
-  @media (min-width: $breakpoint) {
+  @media (min-width: $breakpoint-validated) {
     @content;
   }
 }
 
 @mixin media-max($max-breakpoint) {
-  $breakpoint: validate-breakpoint($max-breakpoint);
+  $breakpoint-validated: validate-breakpoint($max-breakpoint);
 
-  @media (max-width: $breakpoint) {
+  @media (max-width: $breakpoint-validated) {
     @content;
   }
 }
 
 @mixin media-range($min-breakpoint, $max-breakpoint) {
-  $min-breakpoint: validate-breakpoint($min-breakpoint);
-  $max-breakpoint: validate-breakpoint($max-breakpoint);
+  $min-breakpoint-validated: validate-breakpoint($min-breakpoint);
+  $max-breakpoint-validated: validate-breakpoint($max-breakpoint);
 
-  @media (min-width: $min-breakpoint) and (max-width: $max-breakpoint) {
+  @media (min-width: $min-breakpoint-validated) and (max-width: $max-breakpoint-validated) {
     @content;
   }
 }
 
 
+@mixin generate-props-from-map($map, $prefix: "") {
+  //! Enhanced Version from the mixin done by AI with Recursive
+  @each $key, $value in $map {
+    // We construct the new key for the property.
+    // If there's no prefix, it's just the key. If there is, it's prefix-key.
+    $new-key: if($prefix == "", $key, "#{$prefix}-#{$key}");
+
+    // The magic is here: check the type of the value.
+    @if meta.type-of($value) == "map" {
+      // If the value is ANOTHER map, call the mixin again on that inner map,
+      // passing along the key we just built as the new prefix.
+      @include generate-props-from-map($value, $new-key);
+    } @else {
+      // If the value is a final value (not a map), we've hit the end.
+      // Generate the custom property.
+      --#{$new-key}: #{$value};
+    }
+  }
+}
+
+@mixin flex($justify: false, $align: false, $gap: $flex-gap, $dir: false) {
+  display: flex;
+  gap: $gap;
+
+  @if $justify {
+    justify-content: $justify;
+  }
+
+  @if $align {
+    align-items: $align;
+  }
+
+  @if $dir {
+    flex-direction: $dir;
+  }
+  @content;
+}
+
+
 _spacing:
-$space-2xs: clamp(0.25rem, 0.2375rem + 0.0625vw, 0.3125rem);
-$space-xs: clamp(0.5rem, 0.475rem + 0.125vw, 0.625rem);
-$space-s: clamp(0.75rem, 0.7125rem + 0.1875vw, 0.9375rem);
-$space-base: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
-$space-m: clamp(1.5rem, 1.425rem + 0.375vw, 1.875rem);
-$space-l: clamp(2rem, 1.9rem + 0.5vw, 2.5rem);
-$space-xl: clamp(3rem, 2.85rem + 0.75vw, 3.75rem);
-$space-2xl: clamp(4rem, 3.8rem + 1vw, 5rem);
+@use "functions" as *;
+
+$clamp-spaces: (
+  "xxs": clamp(0.25rem, 0.2375rem + 0.0625vw, 0.3125rem),
+  "xs": clamp(0.5rem, 0.475rem + 0.125vw, 0.625rem),
+  "s": clamp(0.75rem, 0.7125rem + 0.1875vw, 0.9375rem),
+  "base": clamp(1rem, 0.95rem + 0.25vw, 1.25rem),
+  "m": clamp(1.5rem, 1.425rem + 0.375vw, 1.875rem),
+  "l": clamp(2rem, 1.9rem + 0.5vw, 2.5rem),
+  "xl": clamp(3rem, 2.85rem + 0.75vw, 3.75rem),
+  "xxl": clamp(4rem, 3.8rem + 1vw, 5rem),
+);
+
+$fixed-spaces: (
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  4: 1rem,
+  5: 1.25rem,
+  6: 1.5rem,
+  7: 1.75rem,
+  8: 2rem,
+  9: 2.5rem,
+  10: 3rem,
+  11: 4rem,
+  12: 5rem,
+  13: 6rem,
+  14: 8rem,
+  15: 10rem,
+);
+
+@function clamp-space($space...) {
+  @return getMapValue("space", $clamp-spaces, $space...);
+}
+@function fixed-space($space...) {
+  @return getMapValue("space", $fixed-spaces, $space...);
+}
+
+$clamp-space-xxs: clamp-space(xxs);
+$clamp-space-xs: clamp-space(xs);
+$clamp-space-s: clamp-space(s);
+$clamp-space-base: clamp-space(base);
+$clamp-space-m: clamp-space(m);
+$clamp-space-l: clamp-space(l);
+$clamp-space-xl: clamp-space(xl);
+$clamp-space-xxl: clamp-space(xxl);
+
+$fixed-space-1: fixed-space(1);
+$fixed-space-2: fixed-space(2);
+$fixed-space-3: fixed-space(3);
+$fixed-space-3: fixed-space(3);
+$fixed-space-4: fixed-space(4);
+$fixed-space-5: fixed-space(5);
+$fixed-space-6: fixed-space(6);
+$fixed-space-7: fixed-space(7);
+$fixed-space-8: fixed-space(8);
+$fixed-space-9: fixed-space(9);
+$fixed-space-10: fixed-space(10);
+$fixed-space-11: fixed-space(11);
+$fixed-space-12: fixed-space(12);
+$fixed-space-13: fixed-space(13);
+$fixed-space-14: fixed-space(14);
+$fixed-space-15: fixed-space(15);
 
 
 _typography:
-$font-sizes: (
-  base: clamp(1rem, 0.95rem + 0.25vw, 1.25rem),
-  medium: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem),
-  large: clamp(1.2656rem, 1.1588rem + 0.5344vw, 1.8rem),
-  xl: clamp(1.4238rem, 1.2766rem + 0.7362vw, 2.16rem),
-  xxl: clamp(1.6018rem, 1.4038rem + 0.9902vw, 2.592rem),
+@use "functions" as *;
+
+$font-families-map: (
+  "primary": '"Source Sans 3", sans-serif',
+  "secondary": "'Alegreya SC'",
 );
 
-$ff-primary: system-ui;
-$fw-400: 400;
+$font-sizes-map: (
+  "xs": clamp(0.6287rem, 0.7096rem + -0.0674vw, 0.6944rem),
+  "s": clamp(0.8173rem, 0.837rem + -0.0164vw, 0.8333rem),
+  "base": clamp(1rem, 0.9856rem + 0.0641vw, 1.0625rem),
+  "m": clamp(1.2rem, 1.1582rem + 0.1859vw, 1.315rem),
+  "l": clamp(1.44rem, 1.3579rem + 0.3647vw, 1.7956rem),
+  "xl": clamp(2rem, 1.5881rem + 0.6219vw, 2.3343rem),
+  "xxl": clamp(2.0736rem, 1.8518rem + 0.9856vw, 3.0346rem),
+  "xxxl": clamp(2.4883rem, 2.1522rem + 1.494vw, 3.645rem),
+);
+
+$font-weights-map: (
+  "400": 400,
+  "600": 600,
+  "700": 700,
+);
+
+@function ff($font-family...) {
+  @return getMapValue("font-family", $font-families-map, $font-family...);
+}
+@function fs($font-size...) {
+  @return getMapValue("font-size", $font-sizes-map, $font-size...);
+}
+@function fw($font-weight...) {
+  @return getMapValue("font-weight", $font-weights-map, $font-weight...);
+}
+
+//? Font Families
+$font-family-primary: var(--ff-primary, ff("primary"));
+$font-family-secondary: var(--ff-secondary, ff("secondary"));
+
+//? Font Sizes
+$font-size-xs: var(--fs-xs);
+$font-size-s: var(--fs-s);
+$font-size-base: var(--fs-base);
+$font-size-m: var(--fs-m);
+$font-size-l: var(--fs-l);
+$font-size-xl: var(--fs-xl);
+$font-size-xxl: var(--fs-xxl);
+$font-size-xxxl: var(--fs-xxxl);
+
+//? Font Weights
+$font-weight-400: var(--fw-400, fw("400"));
+$font-weight-600: var(--fw-600, fw("600"));
+$font-weight-700: var(--fw-700, fw("700"));
+
+_tokens:
+
+@use "globals" as *;
+
+@use "colors" as *;
+
+@use "typography" as *;
+
+@use "spacing" as *;
+
+//! Contextual
+
+$color-text-default: $color-primary-700;
+$color-background-default: $color-primary-100;
+$color-text-interactive-default: $color-accent-400;
+$color-text-interactive-hover: $color-accent-500;
+
+$shadow-1: 0 4px 16px rgb(0 0 0 / 0.05);
+$shadow-2: 0 4px 16px rgb(0 0 0 / 0.15);
+
+$border-radius-1: $fixed-space-2;
+$border-radius-2: $fixed-space-4;
+
+$letter-spacing-width: 0.16em;
+
+$transition-1: 275ms;
+$transition-2: 300ms;
+
+//! Body
+
+$body-font-family: $font-family-primary;
+$body-font-size: $font-size-base;
+$body-font-weight: $font-weight-400;
+$body-text-color: $color-text-default;
+$body-background-color: $color-background-default;
+$body-line-height: 1.2;
+
+//! Paragraphs
+
+$paragraph-max-width: 65ch;
+$paragraph-line-height: 1.5;
+$paragraph-text-wrap: pretty;
+
+//! Layout (Global)
+$wrapper-width: min(var(--wrapper-width, $global-wrapper-width), 100%);
+$wrapper-padding-inline: $clamp-space-base;
+
+$section-padding: var(--section-padding, $global-section-padding);
+
+
+$flex-gap: var(--flex-gap, $global-flex-gap);
+
+$grid-min-col-width-default: 300px;
+$grid-gap: var(--grid-gap, $global-grid-gap);
+
+//!Buttons
+
+$button-background-color: var(--btn-bg, $color-primary-700);
+$button-text-color: var(--btn-text, $color-neutral-100);
+$button-padding: $fixed-space-3 $fixed-space-8;
+$button-font-weight: $font-weight-700;
+$button-transition: $transition-1;
+$button-border-radius: $border-radius-1;
+
+//*Buttons Colors
+$button-primary-background-color: $color-primary-700;
+$button-primary-background-color-hover: $color-primary-800;
+$button-primary-text-color: $color-neutral-100;
+$button-primary-text-color-hover: $color-neutral-100;
+
+$button-accent-background-color: $color-accent-400;
+$button-accent-background-color-hover: $color-accent-500;
+$button-accent-text-color: $color-neutral-100;
+$button-accent-text-color-hover: $color-neutral-100;
+
+//! Cards
+
+//? Services Cards
+$services-card-min-col-width: 315px;
+$services-card-flow-spacing: $clamp-space-xs;
+$services-card-text-align: center;
+$services-card-padding: $clamp-space-l $clamp-space-m;
+$services-card-border-radius: $border-radius-2;
+$services-card-shadow: $shadow-1;
+$services-card-background-color: var(--card-bg, $body-background-color);
+$services-card-text-color: var(--card-text, $body-text-color);
+
+//? Hours Cards
+$hours-card-min-col-width: 130px;
+$hours-card-gap-between: 0;
+$hours-card-flow-spacing: $clamp-space-xs;
+$hours-card-padding: $clamp-space-s $clamp-space-m;
+
+//? Pricing Cards
+
+$pricing-card-flow-spacing:$clamp-space-xs;
+$pricing-card-min-col-width:200px;
+$pricing-card-max-col-width:300px;
+$pricing-card-gap-between: $clamp-space-l;
+$pricing-card-price-font-family:$font-family-secondary;
+$pricing-card-price-font-size:$font-size-base;
+
+//!Headings
+
+$heading-text-color-default: $color-primary-700;
+$heading-letter-spacing: $letter-spacing-width;
+$heading-font-family: $font-family-secondary;
+$heading-text-transform: uppercase;
+$heading-font-weight: $font-weight-700;
+
+$heading-subtitle-font-size: $font-size-m;
+$heading-subtitle-margin:.5em;
+
+$main-heading-color: $color-accent-400;
+$main-heading-font-size: $font-size-xxxl;
+
+$section-heading-color: $color-accent-400;
+$section-heading-font-size: $font-size-xl;
+
+$card-1-heading-color: $color-primary-700;
+$card-1-heading-font-size: $font-size-m;
+
+$card-2-heading-color: $color-primary-400;
+$card-2-heading-font-size: $font-size-l;
+
+
+//! Flow
+
+$flow-spacer: var(--flow-spacer, $global-flow-spacer);
+
+$flow-small-space: $clamp-space-s;
+$flow-medium-space: $clamp-space-m;
+$flow-large-space: $clamp-space-l;
+
+
+//! Forms
+
+$appointment-form-input-padding: $clamp-space-xs;
+$appointment-form-input-border: 2px $color-primary-200 solid;
+$appointment-form-input-border-color-hover: $color-accent-400;
+$appointment-form-input-border-radius: $border-radius-1;
+$appointment-form-input-placeholder-color: $color-primary-300;
+$appointment-form-label-font-weight: $font-weight-700;
+$appointment-form-input-box-gap: $clamp-space-xxs;
+
+
+//! Logo
+$logo-font-family:$font-family-secondary;
+$logo-text-color: $color-primary-300;
+$logo-transform: uppercase;
+$logo-font-weight: $font-weight-700;
+
+//! Sections Based Tokens
+
+//? Header
+
+$header-logo-link-color: $color-primary-300;
+
+$header-font-family: $font-family-secondary;
+$header-background-color: $color-primary-800;
+$header-padding-block: $clamp-space-m;
+$header-letter-spacing: $letter-spacing-width;
+$header-navigation-links-transform: uppercase;
+$header-navigation-links-color: $color-neutral-100;
+$header-navigation-links-font-weight: $font-weight-700;
+
+
+//? Footer
+
+$footer-background-color: $color-primary-800;
+$footer-text-color: $color-primary-200;
+
+
+//? Telephone
+
+$tel-text-color: $color-neutral-100;
+$tel-text-color-hover: $color-accent-300;
+$tel-font-family: $font-family-secondary;
+
+
+
+
+_font-faces:
+
+/* source-sans-3-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400;
+  src: url('assets/fonts/source-sans-3-v18-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* source-sans-3-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  src: url('assets/fonts/source-sans-3-v18-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* source-sans-3-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 700;
+  src: url('assets/fonts/source-sans-3-v18-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+
+/* alegreya-sc-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Alegreya SC';
+  font-style: normal;
+  font-weight: 700;
+  src: url('assets/fonts/alegreya-sc-v25-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 
 _general:
 @use "../abstracts/" as *;
 
-:where(body) {
-  font-family: var(--ff-primary);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-400);
+:where(html) {
+  scroll-behavior: smooth;
+  scroll-padding-top: 3rem;
 }
 
+:where(body) {
+  font-family: $body-font-family;
+  font-size: $body-font-size;
+  font-weight: $body-font-weight;
+  color: $body-text-color;
+  background-color: $body-background-color;
+  line-height: $body-line-height;
+}
+
+:where(p) {
+  max-width: $paragraph-max-width;
+  line-height: $paragraph-line-height;
+  text-wrap: $paragraph-text-wrap;
+}
+
+:where(button, a) {
+  display: inline-flex;
+}
+
+:where(img, picture) {
+  display: block;
+  max-width: 100%;
+}
+
+:where(main section:nth-child(2n)) {
+  background-color: $color-primary-200;
+}
+
+
 _reset:
+/*! purgecss start ignore */
 :where(*, ::before, ::after) {
   box-sizing: border-box;
 }
 
 :where(ul[class]) {
   padding: 0;
+  margin: 0;
   list-style: none;
 }
 
-:where(h1, h2, h3, h4, p, body) {
+:where(a) {
+  text-decoration: none;
+}
+
+:where(h1, h2, h3, h4,dd,dt,dl, p, body) {
   margin: 0;
 }
 
 :where(button) {
   border: none;
+  cursor: pointer;
 }
+
 
 
 :where(input, button) {
@@ -203,21 +662,22 @@ _reset:
   font-size: inherit;
 }
 
+/*! purgecss end ignore */
+
 
 _root:
 @use "sass:map";
 @use "../abstracts/" as *;
 
 :root {
-  --ff-primary: #{$ff-primary};
-  --fs-base: #{fs(base)};
-  --fw-400: #{$fw-400};
+  // --- 1. Generate standard, non-responsive properties ---
 
-  @each $color-name, $color-shades in $colors {
-    @each $color-shade, $color-value in $color-shades {
-      --clr-#{$color-name}-#{$color-shade}: #{$color-value};
-    }
-  }
+  @include generate-props-from-map($colors, "clr");
+  @include generate-props-from-map($font-families, "ff");
+  @include generate-props-from-map($font-weights, "fw");
+  @include generate-props-from-map($globals, "gl");
+  @include generate-props-from-map($font-sizes-map-clamp, "fs");
+
 }
 
 
@@ -225,35 +685,233 @@ _index:
 
 @forward "./root";
 @forward "./reset";
+@forward "./font-face";
 @forward "./general";
 
 
 _buttons:
-nothing right now
+@use "../abstracts/" as *;
+@use "../base/" as *;
 
-_forms:
-nothing right now
+// _components/_card.scss
+// .card {
+//   // Let's try to override the primary color just for this card
+//   // --clr-primary-400: var(--clr-accent-500); // We want it to be orange-300
+//   border: 2px solid --clr-neutral-100;
+//   background: --clr-brown-800;
+// }
 
-_navigation:
-nothing right now
+// // _components/_buttons.scss (using your original alias pattern)
+// .button {
+//   // This variable was resolved at COMPILE TIME to be the string "var(--clr-primary-400)"
+//   background-color: $color-primary-800;
+//   color: --clr-neutral-100;
+
+//   background-color: $button-background-color;
+
+//   transition: background .5s;
+
+//   &[data-type="secondary"] {
+//     --btn-bg: #{$color-accent-500};
+//   }
+
+//   &:hover {
+//     background-color: rgb($button-background-color / .99);
+//   }
+// }
+
+
+.buttons {
+  @include flex() {
+    flex-wrap: wrap;
+  };
+}
+
+.button {
+  background-color: $button-background-color;
+  color: $button-text-color;
+  padding: $button-padding;
+  font-weight: $button-font-weight;
+  border-radius: $button-border-radius;
+  transition: background 0.3s, color 0.3s;
+
+  &[data-button="primary"] {
+    --btn-text: #{$button-primary-text-color};
+    --btn-bg: #{$button-primary-background-color};
+    &:is(:hover, :focus) {
+      --btn-bg: #{$button-primary-background-color-hover};
+
+      // background-color: $button-primary-background-hover;
+    }
+  }
+  &[data-button="accent"] {
+    --btn-text: #{$button-accent-text-color};
+    --btn-bg: #{$button-accent-background-color};
+    &:is(:hover, :focus) {
+      --btn-bg: #{$button-accent-background-color-hover};
+    }
+  }
+}
+
+
+_cards:
+@use "../abstracts/" as *;
+
+.services__card {
+  display: grid;
+  gap: $services-card-flow-spacing;
+  background-color: $services-card-background-color;
+  color: $services-card-text-color;
+
+  padding: $services-card-padding;
+  text-align: $services-card-text-align;
+  border-radius: $services-card-border-radius;
+  box-shadow: $services-card-shadow;
+}
+
+%hours__card-border {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: $color-primary-800;
+}
+
+.hours__card {
+  display: grid;
+  gap: $hours-card-flow-spacing;
+  padding: $hours-card-padding;
+  position: relative;
+
+  &::before {
+    @extend %hours__card-border;
+    left: 0;
+  }
+
+  &::after {
+    @extend %hours__card-border;
+    right: 0;
+  }
+
+  &:first-child::before {
+    width: 2px;
+  }
+  &:last-child::after {
+    width: 2px;
+  }
+}
+
+.pricing__card {
+  display: grid;
+  gap: $pricing-card-flow-spacing;
+}
+
+
+_headings:
+@use "../abstracts/" as *;
+
+.heading-title {
+  font-family: $heading-font-family;
+  font-weight: $heading-font-weight;
+  font-size: var(--heading-fs, revert);
+  color: var(--heading-color, $heading-text-color-default);
+  letter-spacing: $heading-letter-spacing;
+  text-transform: $heading-text-transform;
+
+  &[data-heading="main"] {
+    --heading-color: #{$main-heading-color};
+    --heading-fs: #{$main-heading-font-size};
+  }
+
+  &[data-heading="section"] {
+    --heading-color: #{$section-heading-color};
+    --heading-fs: #{$section-heading-font-size};
+  }
+
+  &[data-heading="card-1"] {
+    --heading-color: #{$card-1-heading-color};
+    --heading-fs: #{$card-1-heading-font-size};
+  }
+  &[data-heading="card-2"] {
+    --heading-color: #{$card-2-heading-color};
+    --heading-fs: #{$card-2-heading-font-size};
+  }
+}
+
+
+.heading-subtitle {
+  font-size: $heading-subtitle-font-size;
+  margin-top: $heading-subtitle-margin;
+  margin-inline: auto;
+}
 
 _index:
 @forward "./buttons";
-@forward "./forms";
-@forward "./navigation";
+@forward "./cards";
+@forward "./headings";
 
 
 _footer:
-nothing right now
+@use  "../abstracts/" as *;
+
+.footer {
+  background-color: $footer-background-color ;
+  color: $footer-text-color;
+}
+
+.tel {
+  font-family: $tel-font-family;
+  color: $tel-text-color;
+  transition: color $transition-1;
+
+  &:is(:hover, :focus) {
+    color: $tel-text-color-hover;
+  }
+}
 
 _grid:
-nothing right now
+@use "../abstracts/" as *;
+.grid {
+  display: grid;
+  gap: $grid-gap;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(var(--grid-min-col-width, $grid-min-col-width-default), 100%), 1fr)
+  );
+}
+
 
 _header:
-nothing right now
+@use "../abstracts/" as *;
 
-_sidebar:
-nothing right now
+.header {
+  background-color: $header-background-color;
+  padding-block: $header-padding-block;
+  font-family: $header-font-family;
+  letter-spacing: $header-letter-spacing;
+  &__content {
+    @include flex(center, center, $clamp-space-m, column) {
+      @include media-min(medium) {
+        justify-content: space-between;
+        flex-direction: row;
+      }
+    }
+  }
+}
+
+.navigation {
+  &__links {
+    @include flex($align: center, $gap: $clamp-space-l);
+  }
+
+  &__link {
+    font-weight: $header-navigation-links-font-weight;
+    color: $header-navigation-links-color;
+    text-transform: $header-navigation-links-transform;
+  }
+}
 
 _wrapper:
 
@@ -261,55 +919,113 @@ _wrapper:
 @use "../abstracts/" as *;
 
 .wrapper {
-  width: min(--wrapper-size, var(--main-wrapper-size, 25rem));
-  padding-inline: $space-base;
+  width: $wrapper-width;
+  padding-inline: $wrapper-padding-inline;
   margin-inline: auto;
+
+  &[data-wrapper="small"] {
+    --wrapper-width: 650px;
+  }
+  &[data-wrapper="extended"] {
+    --wrapper-width: 1440px;
+  }
+  &[data-wrapper="full"] {
+    --wrapper-width: 100%;
+  }
 }
+
+
 
 
 _index:
 @forward "./grid";
 @forward "./header";
 @forward "./footer";
-@forward "./sidebar";
 @forward "./wrapper";
 
-_font-sizes:
+_helpers:
 
 @use "../abstracts/" as *;
-
-
-@each $fs-name, $fs-value in $font-sizes {
-  .fs-#{$fs-name} {
-    font-size: $fs-value;
-  }
-}
-
-
-_helpers:
+@use "../base/" as *;
 
 .text-center {
   text-align: center;
 }
 
-.flow > * + * {
-  margin-top: var(--flow-spacer, $space-base);
+.text-balance {
+  text-wrap: balance;
+}
 
-  &[data-spacing="small"] {
-    --flow-spacer: $space-s;
+.section-padding {
+  padding-block: $section-padding;
+}
+
+.normal-text {
+  color: var(--p-color, var(--clr-neutral-500));
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.mi-auto {
+  margin-inline: auto;
+}
+
+.flow {
+  &[data-flow="small"] {
+    --flow-spacer: #{$flow-small-space};
   }
-  &[data-spacing="medium"] {
-    --flow-spacer: $space-m;
+  &[data-flow="medium"] {
+    --flow-spacer: #{$flow-medium-space};
   }
-  &[data-spacing="large"] {
-    --flow-spacer: $space-l;
+  &[data-flow="large"] {
+    --flow-spacer: #{$flow-large-space};
   }
+
+  > * + * {
+    margin-block-start: $flow-spacer;
+  }
+}
+
+.skip-link {
+  /* 1. Visually hide the link by default */
+  position: absolute;
+  top: -40px; /* Move it off-screen */
+  left: 0;
+  background-color: #000;
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 9999; /* Ensure it appears above all other content */
+  transition: top 0.3s ease; /* Smooth transition */
+  &:focus-visible {
+    top: 0; /* Move it into view */
+  }
+}
+
+.radius-1 {
+  border-radius: $border-radius-1;
+}
+
+.radius-2 {
+  border-radius: $border-radius-2;
+}
+
+
+_logo:
+
+@use "../abstracts/" as *;
+
+.logo-link {
+  font-family: $logo-font-family;
+  font-weight: $logo-font-weight;
+  color: $logo-text-color;
+  text-transform: $logo-transform;
+  letter-spacing: $letter-spacing-width;
 }
 
 
 _index:
 
-@forward "./font-sizes";
+@forward "./logo";
 @forward "./helpers";
 
 and in the style.scss:
@@ -328,40 +1044,465 @@ And of course im using vite to build the project,
 in the vite.config.js i have:
 
 
-// Import necessary functions and plugins
+// vite.config.js
+
+// vite.config.js
+
 import { resolve } from "path";
 import { defineConfig } from "vite";
-import htmlPurge from "vite-plugin-purgecss"; // Your plugin import
+import htmlPurge from "vite-plugin-purgecss";
+import { createHtmlPlugin } from "vite-plugin-html";
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
-// Export a single configuration object, processed by defineConfig
 export default defineConfig({
-  // Root directory where your source files are located (e.g., 'src')
+  // Specifies the project root. Essential for Vite to understand the folder structure.
   root: resolve(__dirname, "src/"),
 
-  // Build options
+  // Specifies the server base. '/' means the server starts at the project root.
+  // This is crucial for resolving paths correctly in both dev and prod.
+  base: "/",
+
+  // Build-specific options.
   build: {
-    outDir: "../dist", // Output directory for built files
-    emptyOutDir: true, // Clear the output directory before building
+    // The output directory for the final production files.
+    outDir: "../dist",
+    // Clears the output directory before each build. Good practice.
+    emptyOutDir: true,
     rollupOptions: {
       input: {
-        // Entry points for your HTML files (Vite builds them as separate pages)
+        // Defines the entry point of the application.
         home: resolve(__dirname, "src/index.html"),
+
         about: resolve(__dirname, "src/about/index.html"),
         contact: resolve(__dirname, "src/contact/index.html"),
       },
     },
   },
 
-  // ✨ THIS IS WHERE YOUR PLUGINS GO ✨
-  // The 'plugins' array is a property of the main Vite config object.
+  // The plugins array.
+
   plugins: [
     htmlPurge({
-      // You can add options for purgecss here if needed.
-      // For example, to tell it where to look for content:
-      content: [
-        resolve(__dirname, "src/**/*.html"), // Look in all HTML files
-        resolve(__dirname, "src/**/*.js"), // Look in JS files (if you have dynamic classes)
-      ],
+      paths: ["./src/**/*.{html,js,vue,jsx,tsx}"],
+      safelist: {
+        // Or use greedy matching for more comprehensive coverage
+        greedy: [/where/],
+      },
+    }),
+
+    createHtmlPlugin({
+      minify: true,
+    }),
+
+    ViteImageOptimizer({
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      jpg: { quality: 80 },
     }),
   ],
 });
+
+// And of course we don't forget the HTML Structure:
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light-2">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Showcasing modern CSS architecture with Sass and BEM. The Barber Shop is a portfolio project built to demonstrate the design system concepts taught in 'Beyond CSS."
+    />
+    <meta
+      name="keywords"
+      content="Sass,
+  Front-End Development,
+  HTML,
+  CSS,
+  Responsive Design,
+  Portfolio Project,
+  Web Development,
+  CSS Preprocessor,
+  Beyond CSS,
+  Kevin Powell,
+  BEM,
+  UI Design,
+  Design System,
+  Tokens,
+  Barber Shop"
+    />
+    <link rel="stylesheet" href="./sass/style.scss" />
+    <title>The Barber Shop | Beyond CSS</title>
+  </head>
+  <body>
+    <header id="header" class="header">
+      <a href="#main-content" class="skip-link">Skip to Main Content</a>
+      <div class="wrapper">
+        <div class="header__content">
+          <a href="" class="logo-link">The Barber Shop</a>
+          <nav class="navigation">
+            <ul class="navigation__links">
+              <li>
+                <a href="#services-section" class="navigation__link"
+                  >Services</a
+                >
+              </li>
+              <li>
+                <a href="#hours-section" class="navigation__link">Hours</a>
+              </li>
+              <li>
+                <a href="#pricing-section" class="navigation__link">Prices</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="main" aria-labelledby="main-heading">
+      <section class="hero | section-padding">
+        <div class="wrapper">
+          <div class="hero__content">
+            <div class="text-col flow">
+              <h1 id="main-heading" class="heading-title" data-heading="main">
+                The Barber Shop
+              </h1>
+              <p class="normal-text">
+                Established over a decade ago,
+                <strong>The Barber Shop</strong> is here to serve your hair
+                needs, whatever they are. From a simple cut, a beard trim or a
+                hot towel shave, we're here to help you with.
+              </p>
+              <div class="buttons">
+                <button class="button" data-button="accent">
+                  Book appointment
+                </button>
+                <button class="button" data-button="primary">
+                  View prices
+                </button>
+              </div>
+            </div>
+            <div class="img-col">
+              <img
+                class="radius-2"
+                src="assets/hair-cut.jpg"
+                alt="A focused, professional barber meticulously styling the textured high-top hair of a male client in a modern barbershop"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        id="services-section"
+        class="services | section-padding text-center"
+        aria-labelledby="services-heading"
+      >
+        <div class="wrapper flow" data-flow="large">
+          <h2
+            id="services-heading"
+            class="heading-title"
+            data-heading="section"
+          >
+            Our services
+          </h2>
+          <div class="services__content | grid">
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Hair cutting</h3>
+              <p class="card__text">
+                A quick clean up or totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Hot shaves</h3>
+              <p class="card__text">
+                There is no better way to pamper yourself than have a hot shave.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Beard cleanup</h3>
+              <p class="card__text">
+                Our barbers are experts when it comes to working on beards.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Hair coloring</h3>
+              <p class="card__text">
+                Expert color work to help you keep looking your best.
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Kids</h3>
+              <p class="card__text">
+                Bring your kids with you while your at it, we love working with
+                them too!
+              </p>
+            </div>
+            <div class="services__card">
+              <h3 class="heading-title" data-heading="card-1">Products</h3>
+              <p class="card__text">
+                We carry a wide range of hair and beard products.
+              </p>
+            </div>
+          </div>
+          <button class="button | mi-auto" data-button="accent">
+            Book appointment
+          </button>
+        </div>
+      </section>
+
+      <section
+        id="hours-section"
+        class="hours | section-padding text-center"
+        aria-labelledby="hours-heading"
+        itemscope
+        itemtype="http://schema.org/HairSalon"
+      >
+        <div class="wrapper | flow" data-flow="large">
+          <div>
+            <h2 id="hours-heading" class="heading-title" data-heading="section">
+              Hours
+            </h2>
+            <p class="heading-subtitle">
+              Open 7 days a week to serve your hair cutting needs
+            </p>
+          </div>
+          <dl class="hours__content">
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Mon</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Mo 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Tue</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Tu 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Wed</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="We 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Thu</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Th 09:00-18:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Fri</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Fr 09:00-21:00" />
+                <time datetime="09:00">09:00</time> -
+                <time datetime="21:00">21:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Sat</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Sa 10:00-21:00" />
+                <time datetime="10:00">09:00</time> -
+                <time datetime="21:00">21:00</time>
+              </dd>
+            </div>
+            <div class="hours__card">
+              <dt class="heading-title" data-heading="card-2">Sun</dt>
+              <dd class="card__time">
+                <meta itemprop="openingHours" content="Su 09:00-18:00" />
+                <time datetime="10:00">09:00</time> -
+                <time datetime="18:00">18:00</time>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+      <section
+        id="pricing-section"
+        class="pricing | section-padding text-center"
+        aria-labelledby="pricing-heading"
+      >
+        <div class="wrapper | flow" data-flow="large" data-wrapper="small">
+          <h2 id="pricing-heading" class="heading-title" data-heading="section">
+            pricing
+          </h2>
+          <div class="pricing__content">
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Adult cut</h3>
+              <p class="pricing__price">$25</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Beard trim</h3>
+              <p class="pricing__price">$25</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">kid cut</h3>
+              <p class="pricing__price">$21</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">
+                How Towel Shave
+              </h3>
+              <p class="pricing__price">$15</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Cut & Wash</h3>
+              <p class="pricing__price">$35</p>
+            </div>
+            <div class="pricing__card">
+              <h3 class="heading-title" data-heading="card-2">Head & Beard</h3>
+              <p class="pricing__price">$45</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="appointment | section-padding text-center">
+        <div class="wrapper | flow" data-wrapper="small" data-flow="large">
+          <div>
+            <h2
+              id="appointment-heading"
+              class="heading-title"
+              data-heading="section"
+            >
+              Book and appointment
+            </h2>
+            <p class="heading-subtitle">
+              Please fill out the form below to book your appointment
+            </p>
+          </div>
+          <div class="appointment__content">
+            <form action="" class="appointment__form | flow">
+              <div class="appointment__form-content">
+                <div class="appointment__input-box">
+                  <label for="username-input">Your Name</label
+                  ><input
+                    id="username-input"
+                    type="text"
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="email-input">E-mail address</label
+                  ><input
+                    id="email-input"
+                    type="email"
+                    placeholder="Jonny1999@gmail.com"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="date-input">Date</label
+                  ><input
+                    id="date-input"
+                    type="date"
+                    placeholder="mm/dd/yyyy"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="number-input">Phone Number</label
+                  ><input
+                    id="number-input"
+                    type="tel"
+                    placeholder="555-555-555"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="service-input">Select Service</label
+                  ><input
+                    id="service-input"
+                    type="text"
+                    placeholder="Hair Cut"
+                  />
+                </div>
+                <div class="appointment__input-box">
+                  <label for="barber-input" data-optional
+                    >Barber's name <span>(optional)</span></label
+                  ><input id="barber-input" type="text" />
+                </div>
+              </div>
+              <button class="button" data-button="accent">
+                Book appointment
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer | section-padding text-center">
+      <div class="wrapper | flow" data-flow="small">
+        <a href="#header" class="logo-link">The Barber Shop</a>
+        <p class="mi-auto">
+          Here to serve hour hair needs, whatever they might be
+        </p>
+        <a href="tel:+514551234" class="tel">514-555-1234</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/main.js"></script>
+
+    <!-- <div class="cards">
+        <div class="wrapper">
+          <div class="cards__content grid">
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="card__title heading-title" data-heading="card">
+                Hair Cutting
+              </h3>
+              <p class="card__description">
+                A quick clean up or a totally new style, we have you covered.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+  </body>
+</html>

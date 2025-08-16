@@ -1,0 +1,52 @@
+@use "../abstracts/" as *;
+
+.services__card {
+  display: grid;
+  gap: $services-card-flow-spacing;
+  background-color: $services-card-background-color;
+  color: $services-card-text-color;
+
+  padding: $services-card-padding;
+  text-align: $services-card-text-align;
+  border-radius: $services-card-border-radius;
+  box-shadow: $services-card-shadow;
+}
+
+%hours__card-border {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: $color-primary-800;
+}
+
+.hours__card {
+  display: grid;
+  gap: $hours-card-flow-spacing;
+  padding: $hours-card-padding;
+  position: relative;
+
+  &::before {
+    @extend %hours__card-border;
+    left: 0;
+  }
+
+  &::after {
+    @extend %hours__card-border;
+    right: 0;
+  }
+
+  &:first-child::before {
+    width: 2px;
+  }
+  &:last-child::after {
+    width: 2px;
+  }
+}
+
+.pricing__card {
+  display: grid;
+  gap: $pricing-card-flow-spacing;
+}
