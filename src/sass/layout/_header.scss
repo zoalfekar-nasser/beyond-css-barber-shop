@@ -7,7 +7,7 @@
   letter-spacing: $header-letter-spacing;
   // position: relative;
   &__content {
-    @include flex(center, center, $clamp-space-s, column) {
+    @include flex(center, center, $clamp-space-base, column) {
       @include media-min(medium) {
         justify-content: space-between;
         flex-direction: row;
@@ -19,7 +19,7 @@
 .navigation {
   &__links {
     @include flex(center, center) {
-      gap:$clamp-space-l $clamp-space-m ;
+      gap:$clamp-space-xs $clamp-space-m ;
       flex-wrap: wrap;
     }
   }
