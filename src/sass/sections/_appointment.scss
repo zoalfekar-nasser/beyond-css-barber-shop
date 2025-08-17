@@ -17,10 +17,9 @@
   &__input-box {
     display: grid;
     gap: $appointment-form-input-box-gap;
-    // justify-items: left;
 
     input {
-      // outline: none;
+      width: $appointment-form-input-width;
       padding: $appointment-form-input-padding;
       border: $appointment-form-input-border;
       border-radius: $appointment-form-input-border-radius;
