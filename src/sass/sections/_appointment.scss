@@ -6,14 +6,13 @@
   }
   &__form-content {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: $clamp-space-base;
+    grid-template-columns: $appointment-form-content-columns-mobile;
+    gap: $appointment-form-content-gap;
 
     @include media-min(small) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: $appointment-form-content-columns-desktop;
     }
   }
-
   &__input-box {
     display: grid;
     gap: $appointment-form-input-box-gap;

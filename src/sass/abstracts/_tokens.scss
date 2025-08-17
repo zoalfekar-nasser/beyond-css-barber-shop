@@ -130,6 +130,9 @@ $flow-large-space: $clamp-space-l;
 
 //! Forms
 
+$appointment-form-content-gap: $clamp-space-base;
+$appointment-form-content-columns-mobile: 1fr;
+$appointment-form-content-columns-desktop: 1fr 1fr;
 $appointment-form-input-padding: $clamp-space-xs;
 $appointment-form-input-width: 100%;
 $appointment-form-input-border: 2px $color-primary-200 solid;
