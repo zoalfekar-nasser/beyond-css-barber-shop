@@ -85,11 +85,6 @@ Accessibility was a primary consideration from the start, ensuring the site is u
     ```
     This command will create a `dist` folder with the optimized, minified files ready for deployment.
 
-```
-
-
-
 ## Acknowledgments
 
 This project would not have been possible without the invaluable knowledge shared by **Kevin Powell** in his **["Beyond CSS"](https://beyondcss.dev/) course**. The course provided the architectural patterns and modern workflows that form the backbone of this entire application.
-```
