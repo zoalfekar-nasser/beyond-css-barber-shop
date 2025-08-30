@@ -2,39 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
     <meta
       name="description"
-      content="Showcasing modern CSS architecture with Sass and BEM. The Barber Shop is a portfolio project built to demonstrate the design system concepts taught in 'Beyond CSS."
+      content="The Barber Shop offers expert men's grooming services including haircuts, beard trims, and hot towel shaves. Open 7 days a week. Book your appointment online today!"
     />
     <meta
       name="keywords"
-      content="
-  Sass,
-  Front-End Development,
-  HTML,
-  CSS,
-  Responsive Design,
-  Portfolio Project,
-  Web Development,
-  CSS Preprocessor,
-  Beyond CSS,
-  Kevin Powell,
-  BEM,
-  UI Design,
-  Design System,
-  Tokens,
-  Barber Shop"
+      content="Men's Salon, Grooming Products, Hair Products, Beard Care, Traditional Shave,Book Barber Appointment, Haircut Appointment, Barber Shop Prices, Barber Shop Hours,Men's Haircut, Kids Cut, Beard Trim, Hot Towel Shave, Hair Coloring, Shave, Hair Styling, Head Shave, Cut and Wash,Barber Shop, Barbershop, Men's Grooming, Haircut, Barber, HTML, CSS, Sass, Design System, Design tokens, Beyond CSS, Kevin Powell, Frontend"
     />
-    <title>The Barber Shop | Beyond CSS</title>
+    <title>The Barber Shop</title>
   </head>
   <body>
     <header id="header" class="header">
       <a href="#main-content" class="skip-link">Skip to Main Content</a>
       <div class="wrapper">
         <div class="header__content">
-          <a href="" class="logo-link">The Barber Shop</a>
+          <a href="/index.html" class="logo-link">The Barber Shop</a>
           <nav class="navigation">
             <ul class="navigation__links">
               <li>
@@ -55,7 +57,7 @@
                   aria-label="Theme switcher"
                 >
                   <svg class="theme-switcher__icon">
-                    <use xlink:href="#color-picker"></use>
+                    <use href="#color-picker"></use>
                   </svg>
                 </button>
                 <ul class="themes-list" id="themes-list" popover="auto">
@@ -239,15 +241,15 @@
               <dt class="heading-title" data-heading="card-2">Sat</dt>
               <dd class="card__time">
                 <meta itemprop="openingHours" content="Sa 10:00-21:00" />
-                <time datetime="10:00">09:00</time> -
+                <time datetime="10:00">10:00</time> -
                 <time datetime="21:00">21:00</time>
               </dd>
             </div>
             <div class="hours__card">
               <dt class="heading-title" data-heading="card-2">Sun</dt>
               <dd class="card__time">
-                <meta itemprop="openingHours" content="Su 09:00-18:00" />
-                <time datetime="10:00">09:00</time> -
+                <meta itemprop="openingHours" content="Su 10:00-18:00" />
+                <time datetime="10:00">10:00</time> -
                 <time datetime="18:00">18:00</time>
               </dd>
             </div>
@@ -370,7 +372,9 @@
         <p class="mi-auto">
           Here to serve hour hair needs, whatever they might be
         </p>
-        <a href="tel:+514551234" class="tel">514-555-1234</a>
+        <a href="tel:+514551234" class="tel" itemprop="telephone"
+          >514-555-1234</a
+        >
       </div>
     </footer>
 
@@ -400,3 +404,21 @@
     <script type="module" src="/main.js"></script>
   </body>
 </html>
+
+<!--   Sass,
+  Front-End Development,
+  HTML,
+  CSS,
+  Responsive Design,
+  Portfolio Project,
+  Web Development,
+  CSS Preprocessor,
+  Beyond CSS,
+  Kevin Powell,
+  BEM,
+  UI Design,
+  Design System,
+  Tokens,
+  Barber Shop -->
+
+<!-- Showcasing modern CSS architecture with Sass and BEM. The Barber Shop is a portfolio project built to demonstrate the design system concepts taught in 'Beyond CSS. -->
