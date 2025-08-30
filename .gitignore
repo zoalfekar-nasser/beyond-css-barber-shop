@@ -13,7 +13,7 @@ design
 dist-ssr
 /assets
 *.local
-
+*.txt
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
