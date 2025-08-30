@@ -2,7 +2,7 @@
 
 # The Barber Shop - A Modern Front-End Showcase
 
-![The Barber Shop Showcase](/public/assets/site-preview.png) <!-- Suggestion: Add a good screenshot of your finished project here and name it project-screenshot.png -->
+![The Barber Shop Showcase](/public/site-preview.png) <!-- Suggestion: Add a good screenshot of your finished project here and name it project-screenshot.png -->
 
 **Live Site:** [barbershopkp.netlify.app](https://barbershopkp.netlify.app)
 
