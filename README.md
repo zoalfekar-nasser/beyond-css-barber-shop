@@ -1,12 +1,8 @@
----
-
 # The Barber Shop - A Modern Front-End Showcase
 
 ![The Barber Shop Showcase](/public/site-preview.png) <!-- Suggestion: Add a good screenshot of your finished project here and name it project-screenshot.png -->
 
 **Live Site:** [barbershopkp.netlify.app](https://barbershopkp.netlify.app)
-
----
 
 ## Project Overview
 
@@ -91,7 +87,7 @@ Accessibility was a primary consideration from the start, ensuring the site is u
 
 ```
 
----
+
 
 ## Acknowledgments
 
